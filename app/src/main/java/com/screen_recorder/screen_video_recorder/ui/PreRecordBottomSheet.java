@@ -72,6 +72,9 @@ public class PreRecordBottomSheet extends BottomSheetDialogFragment {
 
         binding.settingsShortcut.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), SettingsActivity.class)));
+        binding.rowAudio.setOnClickListener(v -> openAudioDialog());
+        binding.rowQuality.setOnClickListener(v -> openQualityDialog());
+        binding.rowCountdown.setOnClickListener(v -> openCountdownDialog());
         binding.startBtn.setOnClickListener(v -> {
             v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
             handleStartClicked();
@@ -111,6 +114,75 @@ public class PreRecordBottomSheet extends BottomSheetDialogFragment {
             case MAX:
             default: return "Max";
         }
+    }
+
+    private void openAudioDialog() {
+        AudioSource[] options = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                ? new AudioSource[]{AudioSource.NONE, AudioSource.MIC, AudioSource.INTERNAL, AudioSource.BOTH}
+                : new AudioSource[]{AudioSource.NONE, AudioSource.MIC};
+        String[] labels = new String[options.length];
+        int selected = 0;
+        AudioSource current = settings.getAudioSource();
+        for (int i = 0; i < options.length; i++) {
+            labels[i] = audioLabel(options[i]);
+            if (options[i] == current) selected = i;
+        }
+        final int[] picked = {selected};
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.setting_audio_title)
+                .setSingleChoiceItems(labels, selected, (d, w) -> picked[0] = w)
+                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                    settings.setAudioSource(options[picked[0]]);
+                    bindSummary();
+                })
+                .setNegativeButton(R.string.perm_cancel, null)
+                .show();
+    }
+
+    private void openQualityDialog() {
+        Quality[] options = {Quality.LOW, Quality.MEDIUM, Quality.HIGH, Quality.MAX};
+        String[] labels = {
+                getString(R.string.setting_quality_low),
+                getString(R.string.setting_quality_medium),
+                getString(R.string.setting_quality_high),
+                getString(R.string.setting_quality_max)
+        };
+        Quality current = settings.getQuality();
+        int selected = 2;
+        for (int i = 0; i < options.length; i++) if (options[i] == current) selected = i;
+        final int[] picked = {selected};
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.setting_quality_title)
+                .setSingleChoiceItems(labels, selected, (d, w) -> picked[0] = w)
+                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                    settings.setQuality(options[picked[0]]);
+                    bindSummary();
+                })
+                .setNegativeButton(R.string.perm_cancel, null)
+                .show();
+    }
+
+    private void openCountdownDialog() {
+        int[] values = {0, 3, 5, 10};
+        String[] labels = {
+                getString(R.string.setting_countdown_off),
+                getString(R.string.setting_countdown_3),
+                getString(R.string.setting_countdown_5),
+                getString(R.string.setting_countdown_10)
+        };
+        int current = settings.getCountdownSec();
+        int selected = 1;
+        for (int i = 0; i < values.length; i++) if (values[i] == current) selected = i;
+        final int[] picked = {selected};
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.setting_countdown_title)
+                .setSingleChoiceItems(labels, selected, (d, w) -> picked[0] = w)
+                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                    settings.setCountdownSec(values[picked[0]]);
+                    bindSummary();
+                })
+                .setNegativeButton(R.string.perm_cancel, null)
+                .show();
     }
 
     private void handleStartClicked() {

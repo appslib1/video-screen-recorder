@@ -58,7 +58,12 @@
         android:paddingHorizontal="@dimen/space_lg"
         android:paddingVertical="@dimen/space_sm">
 
-        <LinearLayout style="@style/SummaryRow">
+        <LinearLayout
+            android:id="@+id/rowAudio"
+            style="@style/SummaryRow"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
             <ImageView style="@style/SummaryIcon" android:src="@drawable/ic_mic"/>
             <TextView style="@style/SummaryLabel" android:text="@string/pre_audio_label"/>
             <TextView style="@style/SummaryValue" android:id="@+id/sumAudio" tools:text="Mic"/>
@@ -66,7 +71,12 @@
 
         <View style="@style/SummaryDivider"/>
 
-        <LinearLayout style="@style/SummaryRow">
+        <LinearLayout
+            android:id="@+id/rowQuality"
+            style="@style/SummaryRow"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
             <ImageView style="@style/SummaryIcon" android:src="@drawable/ic_hd"/>
             <TextView style="@style/SummaryLabel" android:text="@string/setting_quality_title"/>
             <TextView style="@style/SummaryValue" android:id="@+id/sumQuality" tools:text="High · 1080p"/>
@@ -74,7 +84,12 @@
 
         <View style="@style/SummaryDivider"/>
 
-        <LinearLayout style="@style/SummaryRow">
+        <LinearLayout
+            android:id="@+id/rowCountdown"
+            style="@style/SummaryRow"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
             <ImageView style="@style/SummaryIcon" android:src="@drawable/ic_timer"/>
             <TextView style="@style/SummaryLabel" android:text="@string/setting_countdown_title"/>
             <TextView style="@style/SummaryValue" android:id="@+id/sumCountdown" tools:text="3 s"/>
