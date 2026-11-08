@@ -29,6 +29,7 @@ import com.screen_recorder.screen_video_recorder.data.SettingsRepository;
 import com.screen_recorder.screen_video_recorder.databinding.ActivityMainBinding;
 import com.screen_recorder.screen_video_recorder.recording.RecordingService;
 import com.screen_recorder.screen_video_recorder.ui.PreRecordBottomSheet;
+import com.screen_recorder.screen_video_recorder.ui.RatingModal;
 import com.screen_recorder.screen_video_recorder.ui.RecordingsAdapter;
 import com.screen_recorder.screen_video_recorder.ui.VideoDetailsBottomSheet;
 import com.screen_recorder.screen_video_recorder.util.Formats;
@@ -80,7 +81,12 @@ public class MainActivity extends AppCompatActivity implements RecordingsAdapter
         binding.list.setAdapter(adapter);
 
         binding.toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_settings) {
+            int id = item.getItemId();
+            if (id == R.id.action_rate) {
+                new RatingModal(this).openRatingDialog();
+                return true;
+            }
+            if (id == R.id.action_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             }

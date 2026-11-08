@@ -169,6 +169,25 @@
     <string name="projection_retry_msg">To record your screen, Android needs your permission. Your recording stays on your device — nothing is uploaded.</string>
     <string name="projection_retry_action">Try again</string>
     <string name="projection_retry_cancel">Cancel</string>
+
+    <!-- Rating modal -->
+    <string name="rate_us_cd">Rate us</string>
+    <string name="rateTitleIdle">Rate us to help us improve our apps!</string>
+    <string name="rateTitleLow">Oh no!</string>
+    <string name="rateSubtitleLow">Tell us what\'s wrong so we can fix it!</string>
+    <string name="rateTitleHigh">We love you too!</string>
+    <string name="rateSubtitleHigh">Thanks for sharing your feedback</string>
+    <string name="rateHint">The best rating we could receive</string>
+    <string name="rateAction">Rate</string>
+    <string name="noEmail">No email app is found on your device</string>
+    <string name="star1">star 1</string>
+    <string name="star2">star 2</string>
+    <string name="star3">star 3</string>
+    <string name="star4">star 4</string>
+    <string name="star5">star 5</string>
+    <string name="feedbackForApp">Feedback for Screen Recorder</string>
+    <string name="shareVia">Share via</string>
+    <string name="close">Close</string>
     <string name="toast_renamed">Renamed</string>
     <string name="toast_deleted">Deleted</string>
     <string name="toast_internal_audio_unsupported">Internal audio needs Android 10 or newer</string>

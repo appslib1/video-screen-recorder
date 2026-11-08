@@ -31,4 +31,17 @@
     <!-- Onboarding permission cards -->
     <color name="onboarding_granted_bg">#1F10B981</color>
     <color name="onboarding_granted_fg">#10B981</color>
+
+    <!-- Rating modal -->
+    <color name="ratingRed">#F5222D</color>
+    <color name="ratingAmber">#FBBC04</color>
+    <color name="ratingStarEmpty">#DDDDDD</color>
+    <color name="ratingButtonDisabled">#A9C6F5</color>
+    <color name="ratingSecondaryText">#5F6368</color>
+    <color name="ratingPrimaryText">#191A19</color>
+    <!-- Face palette used by ic_face_* drawables -->
+    <color name="faceRed">#F0555B</color>
+    <color name="faceYellow">#FCC934</color>
+    <color name="faceFeature">#3C4043</color>
+    <color name="faceHeart">#EA3B4E</color>
 </resources>
