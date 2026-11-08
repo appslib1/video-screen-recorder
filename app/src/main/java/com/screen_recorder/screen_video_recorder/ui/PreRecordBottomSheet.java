@@ -35,6 +35,7 @@ public class PreRecordBottomSheet extends BottomSheetDialogFragment {
 
     private ActivityResultLauncher<String> micPermLauncher;
     private ActivityResultLauncher<String> notifPermLauncher;
+    private ActivityResultLauncher<Intent> overlaySettingsLauncher;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +49,11 @@ public class PreRecordBottomSheet extends BottomSheetDialogFragment {
                     if (!granted) promptEnableNotifications();
                     else checkMicThenGo();
                 });
+        // Resumes the record flow automatically after the user returns from
+        // the system overlay-permission settings — no need to re-tap Record.
+        overlaySettingsLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                r -> checkMicThenGo());
     }
 
     @Nullable
@@ -144,8 +150,9 @@ public class PreRecordBottomSheet extends BottomSheetDialogFragment {
                     .setPositiveButton(R.string.perm_overlay_go, (d, w) -> {
                         Intent i = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                                 Uri.parse("package:" + requireContext().getPackageName()));
-                        startActivity(i);
-                        dismissAllowingStateLoss();
+                        // Keep the sheet alive so the overlay-result callback
+                        // can continue the flow when the user returns.
+                        try { overlaySettingsLauncher.launch(i); } catch (Exception ignored) {}
                     })
                     .setNegativeButton(R.string.perm_cancel, (d, w) -> proceedToPermissionActivity())
                     .show();
