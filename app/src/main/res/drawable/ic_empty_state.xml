@@ -1,0 +1,16 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <path android:fillColor="?attr/colorSurfaceVariant"
+        android:pathData="M20,30 L100,30 Q104,30 104,34 L104,84 Q104,88 100,88 L20,88 Q16,88 16,84 L16,34 Q16,30 20,30 Z"/>
+    <path android:fillColor="?attr/colorSurface"
+        android:pathData="M28,42 L92,42 Q94,42 94,44 L94,76 Q94,78 92,78 L28,78 Q26,78 26,76 L26,44 Q26,42 28,42 Z"/>
+    <path android:fillColor="?attr/colorPrimary"
+        android:pathData="M55,52 L72,60 L55,68 Z"/>
+    <path android:fillColor="?attr/colorOnSurfaceVariant"
+        android:pathData="M44,96 L76,96 Q78,96 78,98 Q78,100 76,100 L44,100 Q42,100 42,98 Q42,96 44,96 Z"/>
+    <path android:fillColor="?attr/colorSecondary"
+        android:pathData="M95,25 m-9,0 a9,9 0,1 0,18 0 a9,9 0,1 0,-18 0 Z"/>
+</vector>

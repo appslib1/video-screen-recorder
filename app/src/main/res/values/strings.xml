@@ -1,0 +1,172 @@
+<resources>
+    <string name="app_name">Screen Recorder with Mic Audio</string>
+
+    <!-- Date buckets -->
+    <string name="bucket_today">Today</string>
+    <string name="bucket_yesterday">Yesterday</string>
+    <string name="bucket_this_week">This week</string>
+
+    <!-- Library -->
+    <string name="library_title">Screen Recorder</string>
+    <string name="library_stats">%1$d recordings · %2$s</string>
+    <string name="library_empty_title">No recordings yet</string>
+    <string name="library_empty_subtitle">Tap the red button to start recording your screen.</string>
+    <string name="library_fab_cd">Start recording</string>
+    <string name="library_fab_label">Record</string>
+    <string name="library_settings_cd">Settings</string>
+    <string name="snackbar_saved">Recording saved to your library</string>
+    <string name="snackbar_view">View</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_title">Set up Screen Recorder</string>
+    <string name="onboard_subtitle">Grant what you need. All of these are optional — tap Continue any time to start recording.</string>
+    <string name="onboard_cta">Continue</string>
+    <string name="onboard_card_notif_title">Notifications</string>
+    <string name="onboard_card_notif_desc">Shows the pause and stop controls while you\'re recording.</string>
+    <string name="onboard_card_mic_title">Microphone · optional</string>
+    <string name="onboard_card_mic_desc">Needed only if you want to capture your voice during recording.</string>
+    <string name="onboard_card_overlay_title">Display over other apps · optional</string>
+    <string name="onboard_card_overlay_desc">Required for the countdown and the floating record button.</string>
+    <string name="onboard_action_allow">Allow</string>
+    <string name="onboard_action_enable">Enable</string>
+    <string name="onboard_action_granted">Granted</string>
+
+    <!-- Pre-record sheet -->
+    <string name="pre_title">Ready to record</string>
+    <string name="pre_subtitle">Pick your options and tap Start.</string>
+    <string name="pre_subtitle_v2">Review your setup and tap record.</string>
+    <string name="pre_start_v2">Start recording</string>
+    <string name="pre_audio_label">Audio source</string>
+    <string name="pre_audio_none">None</string>
+    <string name="pre_audio_mic">Mic</string>
+    <string name="pre_audio_internal">Internal</string>
+    <string name="pre_audio_both">Both</string>
+    <string name="pre_capture_label">Capture area</string>
+    <string name="pre_capture_full">Full screen</string>
+    <string name="pre_capture_partial">Partial</string>
+    <string name="pre_coming_soon">Soon</string>
+    <string name="pre_countdown_fmt">Countdown · %1$s</string>
+    <string name="pre_countdown_off">off</string>
+    <string name="pre_countdown_seconds">%1$d s</string>
+    <string name="pre_quality_fmt">Quality · %1$s</string>
+    <string name="pre_start">Start</string>
+
+    <!-- Countdown overlay -->
+    <string name="countdown_cancel">Cancel</string>
+    <string name="notif_countdown_title">Starting recording…</string>
+    <string name="notif_countdown_text">Starts in %1$ds</string>
+
+    <!-- Notification -->
+    <string name="notif_channel_recording">Recording</string>
+    <string name="notif_recording_title">Recording</string>
+    <string name="notif_recording_text">%1$s elapsed · Tap to stop</string>
+    <string name="notif_recording_subtext">Screen Recorder</string>
+    <string name="notif_stop">Stop</string>
+    <string name="notif_pause">Pause</string>
+    <string name="notif_resume">Resume</string>
+    <string name="notif_saved_title">Recording saved</string>
+    <string name="notif_saved_text">%1$s · %2$s</string>
+    <string name="notif_channel_saved">Saved recordings</string>
+
+    <!-- Floating bubble -->
+    <string name="bubble_stop_cd">Stop recording</string>
+    <string name="bubble_pause_cd">Pause recording</string>
+    <string name="bubble_resume_cd">Resume recording</string>
+
+    <!-- Permissions -->
+    <string name="perm_overlay_title">Show controls over your screen?</string>
+    <string name="perm_overlay_msg">We put a small floating button on screen so you can stop or pause recording without opening the app. Nothing else is drawn.</string>
+    <string name="perm_overlay_go">Open settings</string>
+    <string name="perm_notif_title">Keep the Stop button accessible</string>
+    <string name="perm_notif_msg">Android requires a notification to keep screen recording running. It only shows the elapsed time and a Stop button — no promotions.</string>
+    <string name="perm_mic_title">Record your voice?</string>
+    <string name="perm_mic_msg">The mic is only active while you\'re recording. Audio stays on your device — nothing is sent anywhere.</string>
+    <string name="perm_mic_skip">Record silent</string>
+    <string name="perm_grant">Grant</string>
+    <string name="perm_cancel">Cancel</string>
+
+    <!-- Video details sheet -->
+    <string name="details_duration">Duration</string>
+    <string name="details_size">Size</string>
+    <string name="details_resolution">Resolution</string>
+    <string name="details_date">Date</string>
+    <string name="details_path">Path</string>
+    <string name="action_play">Play</string>
+    <string name="action_share">Share</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_compress">Compress</string>
+    <string name="action_delete">Delete</string>
+
+    <!-- Rename dialog -->
+    <string name="rename_title">Rename recording</string>
+    <string name="rename_hint">Name</string>
+    <string name="rename_save">Save</string>
+
+    <!-- Delete dialog -->
+    <string name="delete_title">Delete recording?</string>
+    <string name="delete_msg">%1$s will be permanently deleted.</string>
+    <string name="delete_confirm">Delete</string>
+
+    <!-- Compress sheet -->
+    <string name="compress_title">Compress video</string>
+    <string name="compress_msg">Choose a quality preset to re-encode this video.</string>
+    <string name="compress_low">Low · smallest file</string>
+    <string name="compress_medium">Medium · balanced</string>
+    <string name="compress_high">High · best quality</string>
+    <string name="compress_progress">Compressing… %1$d%%</string>
+    <string name="compress_done">Saved %1$s (%2$s smaller)</string>
+    <string name="compress_failed">Compression failed</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_recording">Recording</string>
+    <string name="settings_section_output">Output</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_about">About</string>
+
+    <string name="setting_audio_title">Default audio source</string>
+    <string name="setting_countdown_title">Countdown</string>
+    <string name="setting_countdown_off">Off</string>
+    <string name="setting_countdown_3">3 seconds</string>
+    <string name="setting_countdown_5">5 seconds</string>
+    <string name="setting_countdown_10">10 seconds</string>
+    <string name="setting_quality_title">Quality</string>
+    <string name="setting_quality_low">Low · 480p · 2 Mbps</string>
+    <string name="setting_quality_medium">Medium · 720p · 4 Mbps</string>
+    <string name="setting_quality_high">High · 1080p · 8 Mbps</string>
+    <string name="setting_quality_max">Max · device native · 12 Mbps</string>
+    <string name="setting_show_touches_title">Show touches</string>
+    <string name="setting_show_touches_sub">Visualize taps on the recording</string>
+    <string name="setting_controls_title">Recording controls</string>
+    <string name="setting_controls_notification">Notification</string>
+    <string name="setting_controls_overlay">Floating bubble</string>
+    <string name="setting_launcher_overlay_title">Floating record button</string>
+    <string name="setting_launcher_overlay_sub">Show a draggable record button over any screen</string>
+    <string name="setting_launcher_notif_title">Record from notification</string>
+    <string name="setting_launcher_notif_sub">Keep a quick-record notification in the shade</string>
+    <string name="settings_section_launcher">Quick launcher</string>
+    <string name="notif_channel_launcher">Quick launcher</string>
+    <string name="notif_launcher_title">Screen Recorder ready</string>
+    <string name="notif_launcher_text">Tap Record to start capturing</string>
+    <string name="notif_launcher_action">Record</string>
+    <string name="launcher_bubble_cd">Start recording</string>
+    <string name="setting_save_to_title">Save to</string>
+    <string name="setting_save_to_default">Movies/ScreenRecorder</string>
+    <string name="setting_theme_title">Theme</string>
+    <string name="setting_theme_system">System default</string>
+    <string name="setting_theme_light">Light</string>
+    <string name="setting_theme_dark">Dark</string>
+    <string name="setting_version_title">Version</string>
+
+    <!-- Toasts / errors -->
+    <string name="err_storage_full">Not enough storage to record</string>
+    <string name="err_projection_denied">Screen capture permission was not granted. Tap Record again and allow it.</string>
+    <string name="err_codec_unavailable">Your device doesn\'t support recording at this quality. Try a lower quality in Settings.</string>
+    <string name="err_generic">Could not start recording. Try a lower quality or restart the app.</string>
+    <string name="toast_renamed">Renamed</string>
+    <string name="toast_deleted">Deleted</string>
+    <string name="toast_internal_audio_unsupported">Internal audio needs Android 10 or newer</string>
+    <string name="toast_quality_adjusted">Quality adjusted to fit your device</string>
+    <string name="toast_internal_audio_blocked">Internal audio blocked by your device — recording with mic only</string>
+    <string name="toast_show_touches_hint">Enable \"Show touches\" in Developer options to visualize taps.</string>
+</resources>

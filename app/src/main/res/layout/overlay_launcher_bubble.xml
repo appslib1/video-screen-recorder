@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/launcherRoot"
+    android:layout_width="@dimen/bubble_size"
+    android:layout_height="@dimen/bubble_size"
+    android:background="@drawable/bg_launcher_bubble"
+    android:elevation="8dp">
+
+    <ImageView
+        android:id="@+id/launcherIcon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_record_notif"
+        android:contentDescription="@string/launcher_bubble_cd"/>
+</FrameLayout>

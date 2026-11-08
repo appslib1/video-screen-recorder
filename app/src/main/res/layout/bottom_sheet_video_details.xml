@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/space_xl"
+        android:paddingTop="@dimen/space_lg"
+        android:paddingBottom="@dimen/space_2xl">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="@dimen/radius_lg"
+            app:cardElevation="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/thumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="?attr/colorSurfaceVariant"
+                    android:importantForAccessibility="no"/>
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_play"
+                    android:alpha="0.9"
+                    android:importantForAccessibility="no"/>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            tools:text="Screen_20261003_180012.mp4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_section_pill"
+            android:layout_marginTop="@dimen/space_lg"
+            android:paddingHorizontal="@dimen/space_lg"
+            android:paddingVertical="@dimen/space_md">
+
+            <include android:id="@+id/rowDuration" layout="@layout/row_detail_meta"/>
+            <include android:id="@+id/rowSize" layout="@layout/row_detail_meta"/>
+            <include android:id="@+id/rowResolution" layout="@layout/row_detail_meta"/>
+            <include android:id="@+id/rowDate" layout="@layout/row_detail_meta"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:id="@+id/actionPlay"
+                style="@style/DetailActionBtn">
+                <ImageView style="@style/DetailActionIcon" android:src="@drawable/ic_play"/>
+                <TextView style="@style/DetailActionLabel" android:text="@string/action_play"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/actionShare"
+                style="@style/DetailActionBtn">
+                <ImageView style="@style/DetailActionIcon" android:src="@drawable/ic_share"/>
+                <TextView style="@style/DetailActionLabel" android:text="@string/action_share"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/actionRename"
+                style="@style/DetailActionBtn">
+                <ImageView style="@style/DetailActionIcon" android:src="@drawable/ic_edit"/>
+                <TextView style="@style/DetailActionLabel" android:text="@string/action_rename"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/actionCompress"
+                style="@style/DetailActionBtn">
+                <ImageView style="@style/DetailActionIcon" android:src="@drawable/ic_compress"/>
+                <TextView style="@style/DetailActionLabel" android:text="@string/action_compress"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/actionDelete"
+                style="@style/DetailActionBtn">
+                <ImageView style="@style/DetailActionIcon" android:src="@drawable/ic_delete"/>
+                <TextView style="@style/DetailActionLabel" android:text="@string/action_delete"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

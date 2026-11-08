@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_countdown_scrim">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <FrameLayout
+            android:id="@+id/countdownRing"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:background="@drawable/bg_countdown_ring">
+
+            <TextView
+                android:id="@+id/countdownText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="120sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:includeFontPadding="false"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:text="3"/>
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/notif_countdown_title"
+            android:textColor="#CCFFFFFF"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelBtn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="56dp"
+        android:text="@string/countdown_cancel"
+        android:textColor="@color/white"
+        app:cornerRadius="24dp"
+        app:strokeColor="#55FFFFFF"/>
+</FrameLayout>

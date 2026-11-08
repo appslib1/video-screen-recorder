@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:liftOnScroll="true"
+            android:background="@android:color/transparent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/library_title"
+                app:titleCentered="false"
+                app:titleTextColor="?attr/colorOnSurface"
+                app:titleTextAppearance="@style/TextAppearance.App.Title"
+                app:menu="@menu/menu_main"/>
+
+            <TextView
+                android:id="@+id/stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/space_lg"
+                android:paddingBottom="@dimen/space_md"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="12 recordings · 184 MB"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="120dp"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <include
+            android:id="@+id/empty"
+            layout="@layout/view_empty_state"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fabRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/space_2xl"
+            android:background="@drawable/bg_start_button"
+            android:text="@string/library_fab_label"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:letterSpacing="0.04"
+            android:paddingHorizontal="24dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:elevation="12dp"
+            android:outlineAmbientShadowColor="#FF4D4F"
+            android:outlineSpotShadowColor="#FF4D4F"
+            android:contentDescription="@string/library_fab_cd"
+            app:icon="@drawable/ic_record_ring"
+            app:iconSize="24dp"
+            app:iconTint="@color/white"
+            app:iconPadding="10dp"
+            app:iconGravity="textStart"
+            app:cornerRadius="32dp"
+            app:backgroundTint="@null"
+            app:rippleColor="#44FFFFFF"
+            tools:ignore="UnusedAttribute"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"/>
+</LinearLayout>

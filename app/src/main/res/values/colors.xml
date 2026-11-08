@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand -->
+    <color name="brand_indigo">#7C83FF</color>
+    <color name="brand_indigo_dark">#5B61E6</color>
+    <color name="record_red">#FF4D4F</color>
+    <color name="record_red_pressed">#E63E40</color>
+
+    <!-- Dark surfaces -->
+    <color name="surface_dark">#0F1115</color>
+    <color name="surface_variant_dark">#1A1D23</color>
+    <color name="surface_container_dark">#171A20</color>
+    <color name="outline_dark">#2A2F38</color>
+    <color name="on_surface_dark">#E8EAF0</color>
+    <color name="on_surface_variant_dark">#9CA3B0</color>
+
+    <!-- Light surfaces -->
+    <color name="surface_light">#FBFBFF</color>
+    <color name="surface_variant_light">#EEEFF5</color>
+    <color name="surface_container_light">#F4F5FA</color>
+    <color name="outline_light">#D7D9E2</color>
+    <color name="on_surface_light">#13161C</color>
+    <color name="on_surface_variant_light">#555B68</color>
+
+    <!-- Overlay scrim -->
+    <color name="scrim_70">#B3000000</color>
+
+    <!-- Onboarding permission cards -->
+    <color name="onboarding_granted_bg">#1F10B981</color>
+    <color name="onboarding_granted_fg">#10B981</color>
+</resources>
