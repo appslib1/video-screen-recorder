@@ -1,5 +1,6 @@
 package com.screen_recorder.screen_video_recorder.recording;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -9,6 +10,7 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ServiceInfo;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
@@ -36,6 +38,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.screen_recorder.screen_video_recorder.R;
 import com.screen_recorder.screen_video_recorder.data.AudioSource;
@@ -98,11 +101,40 @@ public class RecordingService extends Service {
         if (intent == null) return START_NOT_STICKY;
         String action = intent.getAction();
         if (ACTION_START.equals(action)) {
-            // Do NOT call startForeground() here. Android 14+ throws
-            // SecurityException if FGS_TYPE_MEDIA_PROJECTION is claimed before
-            // the app has consumed the user's MediaProjection grant via
-            // mpm.getMediaProjection(). startRecording() acquires the token
-            // first, then enters foreground — well within the 5s window.
+            AudioSource audio = AudioSource.fromName(
+                    intent.getStringExtra(EXTRA_AUDIO_SOURCE), AudioSource.NONE);
+            int resultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
+            Intent resultData = intent.getParcelableExtra(EXTRA_RESULT_DATA);
+
+            // If the projection grant isn't viable, satisfy the 5s rule with
+            // SPECIAL_USE (needs no runtime grant), surface the error, bail.
+            if (resultData == null || resultCode == 0) {
+                tryStartForeground(0, false,
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+                Toast.makeText(this, R.string.err_projection_denied,
+                        Toast.LENGTH_LONG).show();
+                stopSelfSafe();
+                return START_NOT_STICKY;
+            }
+
+            // Samsung (and Google's own A14+ ScreenCapture sample) require the
+            // service to be foreground with FGS_TYPE_MEDIA_PROJECTION BEFORE
+            // calling mpm.getMediaProjection(). Claim it now — the grant is
+            // waiting in resultData, so the system allows the claim.
+            if (!tryStartForeground(0, audio != AudioSource.NONE,
+                    buildProjectionFgsType(audio))) {
+                // FGS_TYPE_MEDIA_PROJECTION rejected (rare vendor case or
+                // mic perm missing for MICROPHONE type). Fall back to
+                // SPECIAL_USE so we can stop cleanly without triggering the
+                // ForegroundServiceDidNotStartInTime timer.
+                tryStartForeground(0, false,
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+                Toast.makeText(this, R.string.err_projection_denied,
+                        Toast.LENGTH_LONG).show();
+                stopSelfSafe();
+                return START_NOT_STICKY;
+            }
+
             int errRes = startRecording(intent);
             if (errRes != 0) {
                 Toast.makeText(this, errRes, Toast.LENGTH_LONG).show();
@@ -137,12 +169,9 @@ public class RecordingService extends Service {
         int resultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
         Intent resultData = intent.getParcelableExtra(EXTRA_RESULT_DATA);
         AudioSource audio = AudioSource.fromName(intent.getStringExtra(EXTRA_AUDIO_SOURCE), AudioSource.NONE);
-        if (resultData == null || resultCode == 0) return R.string.err_projection_denied;
 
-        // Android 14+ (API 34+) enforces that FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
-        // can only be claimed AFTER mpm.getMediaProjection() has consumed the
-        // user's grant. Fetch the token first, then enter foreground — this
-        // whole block runs well within the 5s FGS start window.
+        // onStartCommand validated resultData/resultCode and already entered
+        // foreground with FGS_TYPE_MEDIA_PROJECTION. Consume the grant now.
         MediaProjectionManager mpm = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         try {
             projection = mpm.getMediaProjection(resultCode, resultData);
@@ -152,17 +181,6 @@ public class RecordingService extends Service {
         }
         if (projection == null) return R.string.err_projection_denied;
         projection.registerCallback(projectionCallback, handler);
-
-        try {
-            startForegroundNotification(0, audio != AudioSource.NONE);
-        } catch (SecurityException se) {
-            // Vendor ROMs occasionally reject FGS_TYPE_MEDIA_PROJECTION even
-            // with a valid token (e.g. battery optimizer policies). Nothing
-            // to do but surface a message and clean up.
-            Log.e(TAG, "startForeground MEDIA_PROJECTION denied", se);
-            releaseProjection();
-            return R.string.err_projection_denied;
-        }
 
         SettingsRepository settings = new SettingsRepository(this);
         Quality quality = settings.getQuality();
@@ -397,21 +415,59 @@ public class RecordingService extends Service {
     }
 
     private void startForegroundNotification(long elapsedSec, boolean withMic) {
+        int type = ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION;
+        if (withMic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            type |= ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE;
+        }
+        // Must pass a non-zero type — the manifest declares
+        // mediaProjection|microphone|specialUse, so the untyped overload throws
+        // IllegalArgumentException on API 29+. Let SecurityException propagate
+        // so callers (which wrap this in try/catch) can clean up and surface
+        // err_projection_denied.
         Notification n = buildRecordingNotification(elapsedSec);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            int type = ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION;
-            if (withMic && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                type |= ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE;
-            }
-            // Must pass a non-zero type — the manifest declares
-            // mediaProjection|microphone, so the untyped overload throws
-            // IllegalArgumentException on API 29+. Let SecurityException
-            // propagate so callers (which wrap this in try/catch) can
-            // clean up and surface err_projection_denied.
             startForeground(NOTIF_ID, n, type);
         } else {
             startForeground(NOTIF_ID, n);
         }
+    }
+
+    /**
+     * Swallowing version used at service entry to guarantee the 5s rule is
+     * satisfied even when the "real" startForegroundNotification path can't
+     * run yet. Returns false if even the fallback type is rejected (extremely
+     * rare — would only happen on a broken OEM ROM).
+     */
+    private boolean tryStartForeground(long elapsedSec, boolean withMic, int type) {
+        try {
+            Notification n = buildRecordingNotification(elapsedSec);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(NOTIF_ID, n, type);
+            } else {
+                startForeground(NOTIF_ID, n);
+            }
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "tryStartForeground failed (type=" + type + ")", e);
+            return false;
+        }
+    }
+
+    /**
+     * Builds the FGS type bitmask for the recording session. Always includes
+     * MEDIA_PROJECTION. OR's in MICROPHONE only when (a) audio needs the mic
+     * AND (b) RECORD_AUDIO is actually granted — claiming MICROPHONE without
+     * the permission throws SecurityException on API 30+.
+     */
+    private int buildProjectionFgsType(AudioSource audio) {
+        int type = ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION;
+        boolean needsMic = audio == AudioSource.MIC || audio == AudioSource.BOTH;
+        boolean hasMicPerm = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+        if (needsMic && hasMicPerm && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            type |= ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE;
+        }
+        return type;
     }
 
     private Notification buildRecordingNotification(long elapsedSec) {

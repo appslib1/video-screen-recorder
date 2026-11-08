@@ -65,7 +65,11 @@
         <service
             android:name=".recording.RecordingService"
             android:exported="false"
-            android:foregroundServiceType="mediaProjection|microphone" />
+            android:foregroundServiceType="mediaProjection|microphone|specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="recording_setup" />
+        </service>
 
         <service
             android:name=".recording.CountdownOverlayService"

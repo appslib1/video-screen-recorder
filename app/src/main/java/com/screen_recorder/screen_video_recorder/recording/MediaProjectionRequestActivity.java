@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.screen_recorder.screen_video_recorder.R;
 import com.screen_recorder.screen_video_recorder.data.AudioSource;
 import com.screen_recorder.screen_video_recorder.data.SettingsRepository;
 
@@ -35,14 +37,34 @@ public class MediaProjectionRequestActivity extends AppCompatActivity {
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), this::onResult);
 
+        requestScreenCapture();
+    }
+
+    private void requestScreenCapture() {
         MediaProjectionManager mpm = (MediaProjectionManager)
                 getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        launcher.launch(mpm.createScreenCaptureIntent());
+        try {
+            launcher.launch(mpm.createScreenCaptureIntent());
+        } catch (Exception e) {
+            finish();
+        }
+    }
+
+    private void showRetryDialog() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.projection_retry_title)
+                .setMessage(R.string.projection_retry_msg)
+                .setCancelable(false)
+                .setPositiveButton(R.string.projection_retry_action,
+                        (d, w) -> requestScreenCapture())
+                .setNegativeButton(R.string.projection_retry_cancel,
+                        (d, w) -> finish())
+                .show();
     }
 
     private void onResult(ActivityResult result) {
         if (result.getResultCode() != RESULT_OK || result.getData() == null) {
-            finish();
+            showRetryDialog();
             return;
         }
 
@@ -54,7 +76,15 @@ public class MediaProjectionRequestActivity extends AppCompatActivity {
         target.putExtra(RecordingService.EXTRA_RESULT_DATA, result.getData());
         target.putExtra(RecordingService.EXTRA_AUDIO_SOURCE, audioSource.name());
 
-        if (countdown > 0) {
+        // Route through CountdownOverlayService ONLY when we can actually draw
+        // the overlay. If overlay permission is missing the countdown service
+        // would skip the overlay and relay to RecordingService anyway — but on
+        // Android 14+ that extra service hop can invalidate the MediaProjection
+        // token (one-shot per grant), surfacing as err_projection_denied. Skip
+        // the hop to preserve the token.
+        boolean canShowOverlay = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || Settings.canDrawOverlays(this);
+        if (countdown > 0 && canShowOverlay) {
             Intent countdownIntent = new Intent(this, CountdownOverlayService.class)
                     .putExtra(CountdownOverlayService.EXTRA_SECONDS, countdown)
                     .putExtras(target.getExtras());

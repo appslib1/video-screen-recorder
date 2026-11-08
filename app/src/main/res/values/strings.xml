@@ -160,9 +160,15 @@
 
     <!-- Toasts / errors -->
     <string name="err_storage_full">Not enough storage to record</string>
-    <string name="err_projection_denied">Screen capture permission was not granted. Tap Record again and allow it.</string>
+    <string name="err_projection_denied">Could not start screen capture. Please tap Record again.</string>
     <string name="err_codec_unavailable">Your device doesn\'t support recording at this quality. Try a lower quality in Settings.</string>
     <string name="err_generic">Could not start recording. Try a lower quality or restart the app.</string>
+
+    <!-- Screen capture retry modal -->
+    <string name="projection_retry_title">Screen capture needed</string>
+    <string name="projection_retry_msg">To record your screen, Android needs your permission. Your recording stays on your device — nothing is uploaded.</string>
+    <string name="projection_retry_action">Try again</string>
+    <string name="projection_retry_cancel">Cancel</string>
     <string name="toast_renamed">Renamed</string>
     <string name="toast_deleted">Deleted</string>
     <string name="toast_internal_audio_unsupported">Internal audio needs Android 10 or newer</string>
